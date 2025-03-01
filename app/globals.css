@@ -155,6 +155,16 @@ a,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
+  cursor: pointer !important;
+}
+
+/* リンク要素のホバー時に背景に20%の透明度の黒を重ねる */
+a:hover,
+button:hover,
+[role="button"]:hover,
+.cursor-pointer:hover {
+  /* background-color: rgba(0, 0, 0, 0.2) !important; */
+  /* transition: background-color 0.2s ease-in-out; */
   cursor: pointer;
 }
 

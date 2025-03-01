@@ -289,8 +289,10 @@ const CommentItem = ({
               <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2">
                 <button
                   onClick={goToPrevious}
-                  className={`bg-gray-200 rounded-full p-1 hover:bg-gray-300 transition-colors ${
-                    currentIndex <= 0 ? "opacity-0 cursor-not-allowed" : ""
+                  className={`rounded-full p-1 hover:bg-gray-300 transition-all duration-300 ease-in-out ${
+                    currentIndex <= 0
+                      ? "opacity-0 cursor-not-allowed"
+                      : "opacity-100"
                   }`}
                   disabled={currentIndex <= 0}
                 >
@@ -303,10 +305,10 @@ const CommentItem = ({
 
                 <button
                   onClick={goToNext}
-                  className={`bg-gray-200 rounded-full p-1 hover:bg-gray-300 transition-colors ${
+                  className={`rounded-full p-1 hover:bg-gray-300 transition-all duration-300 ease-in-out ${
                     currentIndex >= comments.length - 1
                       ? "opacity-0 cursor-not-allowed"
-                      : ""
+                      : "opacity-100"
                   }`}
                   disabled={currentIndex >= comments.length - 1}
                 >
