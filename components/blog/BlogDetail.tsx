@@ -61,10 +61,6 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
   return (
     <div className="grid grid-cols-3 gap-5">
       <div className="col-span-2 space-y-5">
-        <div className="text-sm text-gray-500">
-          {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
-        </div>
-        <div className="font-bold text-2xl">{blog.title}</div>
         <div>
           <Image
             src={blog.image_url || "/noImage.webp"}
@@ -75,16 +71,21 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
             priority
           />
         </div>
+        <div className="text-sm text-gray-500">
+          {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
+        </div>
+        <div className="font-bold text-2xl">{blog.title}</div>
         <div className="leading-relaxed break-words whitespace-pre-wrap">
           {blog.content}
         </div>
 
-        {blog.list && (
-          <div className="mt-8">
-            <h3 className="font-bold text-lg mb-2">リスト</h3>
-            <div className="prose prose-sm max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: blog.list }} />
-            </div>
+        {blog.list && blog.list.trim() !== "" && (
+          <div className="mt-4">
+            {/* <h3 className="font-bold text-lg mb-2">リスト</h3> */}
+            <div
+              className="prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: blog.list }}
+            />
           </div>
         )}
 

@@ -45,7 +45,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
           <footer className="border-t py-2">
             <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©Collextion. ALL Rights Reserved.</div>
+              <div>©Collextion Case ALL Rights Reserved.</div>
             </div>
           </footer>
         </div>

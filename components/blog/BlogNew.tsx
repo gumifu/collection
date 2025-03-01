@@ -23,7 +23,7 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import FormError from "@/components/auth/FormError";
-import TipTapEditor from "./TipTapEditor";
+import ListOnlyEditor from "./ListOnlyEditor";
 
 interface BlogNewProps {
   userId: string;
@@ -197,8 +197,11 @@ const BlogNew = ({ userId }: BlogNewProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-bold">リスト</FormLabel>
+                <p className="text-xs text-gray-500 mb-2">
+                  箇条書き（・）または番号付きリスト（1. 2. 3.）を作成できます
+                </p>
                 <FormControl>
-                  <TipTapEditor
+                  <ListOnlyEditor
                     content={field.value || ""}
                     onChange={(newContent) => {
                       field.onChange(newContent);
