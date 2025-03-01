@@ -28,6 +28,19 @@ export type CommentType = {
   };
 };
 
+export type ThemeCommentType = {
+  id: string;
+  content: string;
+  theme_id: string;
+  user_id: string;
+  created_at: string;
+  profiles: {
+    id: string;
+    name: string;
+    avatar_url: string | null;
+  };
+};
+
 export type ThemeType = {
   id: string;
   name: string;

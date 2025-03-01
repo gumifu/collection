@@ -181,7 +181,7 @@ const ThemeSelector = ({ themes }: ThemeSelectorProps) => {
         {/* コメントセクション */}
         <div className="mt-10 border-t pt-8">
           <h2 className="font-bold text-xl mb-6">
-            みんなのコレクション ({latestThemeItems.length}/{themeItems.length})
+            みんなのテーマ ({latestThemeItems.length}/{themeItems.length})
           </h2>
 
           {/* テーマアイテムリスト */}

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import ThemeForm from "@/components/theme/ThemeForm";
-import BlogItems from "@/components/theme/BlogItems";
 
 // テーマ詳細ページ
 const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
@@ -19,24 +18,6 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
   } = await supabase.auth.getSession();
   const user = session?.user || null;
 
-  // ブログ一覧取得
-  const { data: blogsData, error } = await supabase
-    .from("blogs")
-    .select(
-      `
-      *,
-      profiles (
-        name,
-        avatar_url
-      )
-    `
-    )
-    .order("updated_at", { ascending: false });
-
-  if (!blogsData || error) {
-    return <div className="text-center">投稿されていません</div>;
-  }
-
   // テーマの詳細情報を取得（FV画像を含む）
   const { data: themeData } = await supabase
     .from("themes")
@@ -44,8 +25,45 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
     .eq("name", decodedName)
     .single();
 
-  // テーマ詳細ページの場合は最新6件のみ表示
-  const displayBlogs = blogsData.slice(0, 6);
+  // テーマアイテムを取得
+  const { data: themeItemsData, error: themeItemsError } = await supabase
+    .from("theme_items")
+    .select("*")
+    .eq("theme_id", themeData?.id)
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  let themeItems = themeItemsData || [];
+
+  if (themeItemsError) {
+    console.error("テーマアイテム取得エラー:", themeItemsError);
+  } else if (themeItems.length > 0) {
+    // ユーザーIDを抽出
+    const userIds = [...new Set(themeItems.map((item) => item.user_id))];
+
+    // プロフィール情報を取得
+    const { data: profilesData } = await supabase
+      .from("profiles")
+      .select("id, name, avatar_url")
+      .in("id", userIds);
+
+    // プロフィール情報をマップ
+    const profilesMap = profilesData
+      ? profilesData.reduce((acc, profile) => {
+          acc[profile.id] = profile;
+          return acc;
+        }, {} as Record<string, { name: string; avatar_url: string | null }>)
+      : {};
+
+    // テーマアイテムにプロフィール情報を追加
+    themeItems = themeItems.map((item) => ({
+      ...item,
+      profiles: profilesMap[item.user_id] || {
+        name: "名無しユーザー",
+        avatar_url: null,
+      },
+    }));
+  }
 
   return (
     <Suspense fallback={<Loading />}>
@@ -82,30 +100,6 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
                 <li>他のユーザーの投稿にコメントして交流を深めましょう</li>
               </ul>
             </div>
-
-            {/* 投稿フォーム */}
-            {user ? (
-              <div className="mt-8">
-                <ThemeForm
-                  themeId={themeData?.id || decodedName}
-                  userId={user.id}
-                  themeName={decodedName}
-                  themePath={`/theme/${encodeURIComponent(decodedName)}`}
-                />
-              </div>
-            ) : (
-              <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  コレクションを投稿するにはログインが必要です
-                </p>
-                <Link
-                  href="/login"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition inline-block"
-                >
-                  ログインする
-                </Link>
-              </div>
-            )}
           </div>
 
           <div className="col-span-1 order-last md:order-none">
@@ -130,31 +124,107 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
 
         {/* コレクションセクション */}
         <div className="mt-10 border-t pt-8">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="font-bold text-xl">
-              みんなのコレクション ({displayBlogs.length}/{blogsData.length})
-            </h2>
-            <Link href="/" className="text-blue-500 hover:underline">
-              トップに戻る
-            </Link>
+          <h2 className="font-bold text-xl mb-6">
+            みんなのコレクション ({themeItems.length})
+          </h2>
+
+          <div className="mt-4 max-h-[30vh] overflow-y-auto pr-2">
+            {themeItems.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {themeItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 h-full flex flex-col cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Image
+                          src={
+                            item.profiles?.avatar_url || "/avator-default.webp"
+                          }
+                          alt="ユーザーアバター"
+                          className="rounded-full aspect-square"
+                          width={40}
+                          height={40}
+                        />
+                        <div>
+                          <p className="font-semibold">
+                            {item.profiles?.name || "名無しユーザー"}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {format(
+                              new Date(item.created_at),
+                              "yyyy/MM/dd HH:mm"
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      {user && user.id === item.user_id && (
+                        <button className="text-red-500 hover:text-red-700 transition">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="lucide lucide-trash2 h-4 w-4"
+                          >
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    <div className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden pl-4 dark:prose-invert">
+                      <p>{item.content}</p>
+                      {item.list && (
+                        <div
+                          className="mt-2"
+                          dangerouslySetInnerHTML={{ __html: item.list }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                まだ投稿がありません。最初の投稿をしてみましょう！
+              </div>
+            )}
           </div>
 
-          {/* テーマアイテムリスト */}
-          {displayBlogs.length > 0 ? (
-            <BlogItems blogs={displayBlogs} />
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              まだ投稿がありません。最初の投稿をしてみましょう！
-            </div>
-          )}
-
-          {displayBlogs.length === 6 && blogsData.length > 6 && (
-            <div className="text-center mt-8">
-              <p className="text-gray-500">
-                表示: 6件 / 全{blogsData.length}件
-              </p>
-            </div>
-          )}
+          {/* コレクション投稿フォーム */}
+          <div className="mt-8">
+            <h3 className="font-bold text-lg mb-4">コレクションを投稿</h3>
+            {user ? (
+              <ThemeForm
+                themeId={themeData?.id || ""}
+                userId={user.id}
+                themeName={decodedName}
+                themePath={`/theme/${name}`}
+              />
+            ) : (
+              <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  コレクションを投稿するにはログインが必要です
+                </p>
+                <Link
+                  href="/login"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition inline-block"
+                >
+                  ログインする
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Suspense>
