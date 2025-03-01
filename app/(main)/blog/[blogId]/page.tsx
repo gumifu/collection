@@ -3,13 +3,13 @@ import { Suspense } from "react";
 import BlogDetail from "@/components/blog/BlogDetail";
 import Loading from "@/app/loading";
 
-type BlogDetailPageProps = {
-  params: {
-    blogId: string;
-  };
+type PageProps = {
+  params: Promise<{ blogId: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
+export default async function BlogDetailPage(props: PageProps) {
+  const params = await props.params;
   const { blogId } = params;
   const supabase = await createClient();
 
@@ -44,6 +44,4 @@ const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
       <BlogDetail blog={blogData} isMyBlog={isMyBlog} />
     </Suspense>
   );
-};
-
-export default BlogDetailPage;
+}
