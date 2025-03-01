@@ -102,19 +102,29 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
       </div>
 
       <div className="col-span-1">
-        <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5">
-          <Image
-            src={blog.profiles.avatar_url || "/avator-default.webp"}
-            className="rounded-full object-cover aspect-square"
-            alt="avatar"
-            width={100}
-            height={100}
-            priority
-          />
+        <Link
+          href={`/profile/${blog.user_id}`}
+          className="hover:opacity-80 transition-opacity"
+        >
+          <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5">
+            <Image
+              src={blog.profiles.avatar_url || "/avator-default.webp"}
+              className="rounded-full object-cover aspect-square hover:opacity-80 transition-opacity"
+              alt="avatar"
+              width={100}
+              height={100}
+              priority
+            />
 
-          <div className="font-bold">{blog.profiles.name || "No Name"}</div>
-          <div className="text-sm">{blog.profiles.introduce}</div>
-        </div>
+            <div className="font-bold font-yugothic">
+              {blog.profiles.name || "No Name"}
+            </div>
+
+            {blog.profiles.introduce && (
+              <p className="text-gray-600 mt-1">{blog.profiles.introduce}</p>
+            )}
+          </div>
+        </Link>
       </div>
     </div>
   );

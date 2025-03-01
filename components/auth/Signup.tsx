@@ -100,7 +100,7 @@ const Signup = () => {
                 <FormLabel className="font-bold">メールアドレス</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="example@fullstackchannel.com"
+                    placeholder="example@collectioncase.com"
                     {...field}
                     disabled={isPending}
                   />

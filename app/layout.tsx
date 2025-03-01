@@ -1,14 +1,15 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { M_PLUS_1 } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import { createClient } from "@/utils/supabase/server";
 // import ToastProvider from "@/components/providers/ToastProvider";
 import Navigation from "@/components/ui/navigation";
 import ToastProvider from "@/components/providers/ToastProvider";
 
-const mPlus1 = M_PLUS_1({
+const notoSansJP = Noto_Sans_JP({
   weight: ["400", "700", "900"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <html lang="ja">
-      <body className={mPlus1.className}>
+      <body className={notoSansJP.className}>
         <ToastProvider />
         <div className="flex min-h-screen flex-col">
           <Navigation user={user} />
@@ -44,7 +45,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
           <footer className="border-t py-2">
             <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©FullStackChannel. ALL Rights Reserved.</div>
+              <div>©CollectionCase. ALL Rights Reserved.</div>
             </div>
           </footer>
         </div>

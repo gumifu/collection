@@ -34,7 +34,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         <div className="text-gray-500 text-xs">
           {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
         </div>
-        <div className="font-bold">{blog.title}</div>
+        <div className="font-semibold">{blog.title}</div>
         <div className="flex items-center space-x-3">
           <Image
             src={blog.profiles.avatar_url || "/avator-default.webp"}
@@ -43,7 +43,11 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             width={30}
             height={30}
           />
-          <div className="text-sm">{blog.profiles.name || "No Name"}</div>
+          <Link href={`/profile/${blog.user_id}`} className="hover:underline">
+            <div className="text-sm font-yugothic">
+              {blog.profiles.name || "No Name"}
+            </div>
+          </Link>
         </div>
       </div>
     </div>
