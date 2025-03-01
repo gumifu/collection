@@ -43,7 +43,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             width={30}
             height={30}
           />
-          <div className="text-sm">{blog.profiles.name}</div>
+          <div className="text-sm">{blog.profiles.name || "No Name"}</div>
         </div>
       </div>
     </div>

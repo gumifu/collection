@@ -112,7 +112,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
             priority
           />
 
-          <div className="font-bold">{blog.profiles.name}</div>
+          <div className="font-bold">{blog.profiles.name || "No Name"}</div>
           <div className="text-sm">{blog.profiles.introduce}</div>
         </div>
       </div>
