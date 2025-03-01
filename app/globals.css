@@ -45,6 +45,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark {
@@ -194,9 +195,118 @@ a.disabled,
 }
 
 .animate-to-dark {
-  animation: toDarkMode 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: toDarkMode 500ms ease-in-out forwards;
 }
 
 .animate-to-light {
-  animation: toLightMode 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: toLightMode 500ms ease-in-out forwards;
+}
+
+/* ブログアイテムのリスト表示スタイル */
+.group:hover .prose ul,
+.group:hover .prose ol {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  padding-left: 1.5rem;
+  font-weight: bold;
+}
+
+/* テキストシャドウ */
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* リスト全体のアニメーション */
+.list-animation {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.group:hover .list-animation {
+  animation: fadeInUp 0.4s ease-in-out forwards;
+}
+
+/* リストアイテムのマージン */
+.prose ul li,
+.prose ol li {
+  margin-bottom: 0.75rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* モーダルとアニメーションの共通スタイル */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-left {
+  animation: slideInLeft 0.3s ease-in-out;
+}
+
+.slide-right {
+  animation: slideInRight 0.3s ease-in-out;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  @apply bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full min-h-[25vh] max-h-[80vh] overflow-y-auto transition-transform duration-300 ease-in-out transform relative;
+  animation: modalFadeIn 0.3s ease-in-out;
+}
+
+.modal-close-button {
+  @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors;
+}
+
+.modal-pagination {
+  @apply absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2;
+}
+
+.modal-pagination-button {
+  @apply rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out;
+}
+
+.modal-pagination-counter {
+  @apply bg-white dark:bg-gray-700 rounded-full px-3 py-1 shadow-md text-sm;
 }

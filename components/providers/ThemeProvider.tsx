@@ -37,6 +37,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const value = {
     theme,
     setTheme: (theme: Theme) => {
+      // 現在のテーマを取得（ローカルストレージではなく現在のstateから取得）
+      const currentTheme = theme === "light" ? "dark" : "light";
+
       // 適切なアニメーションクラスを適用
       if (theme === "dark") {
         // ライト→ダーク（オレンジ経由）

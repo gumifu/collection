@@ -29,8 +29,20 @@ const Navigation = ({ user }: NavigationProps) => {
   return (
     <header className="border-b dark:border-gray-700 dark:bg-gray-900">
       <div className="mx-auto max-w-screen-lg px-2 py-5 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl">
-          Collection Case
+        <Link
+          href="/"
+          className="font-bold text-xl"
+          onClick={(e) => {
+            // テーマ詳細ページが開いている場合は、通常のリンク動作をキャンセルして
+            // URLを直接変更し、ページをリフレッシュする
+            if (window.location.search.includes("theme=")) {
+              e.preventDefault();
+              window.history.pushState({}, "", "/");
+              window.location.reload();
+            }
+          }}
+        >
+          collextion
         </Link>
 
         <div className="flex items-center space-x-4">

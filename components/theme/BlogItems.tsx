@@ -1,21 +1,39 @@
 "use client";
 
-import { BlogType } from "@/types";
-import { format } from "date-fns";
 import Image from "next/image";
+import { format } from "date-fns";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
-interface BlogItemProps {
-  blog: BlogType & {
-    profiles: {
-      name: string;
-      avatar_url: string;
-    };
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  image_url: string;
+  updated_at: string;
+  list?: string;
+  profiles: {
+    name: string;
+    avatar_url: string;
   };
 }
 
-const BlogItem = ({ blog }: BlogItemProps) => {
+interface BlogItemsProps {
+  blogs: Blog[];
+}
+
+const BlogItems = ({ blogs }: BlogItemsProps) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {blogs.map((blog) => (
+        <BlogItem key={blog.id} blog={blog} />
+      ))}
+    </div>
+  );
+};
+
+// トップページと同じBlogItemコンポーネント
+const BlogItem = ({ blog }: { blog: Blog }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -34,7 +52,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={`blog/${blog.id}`} className="block relative">
+      <Link href={`/blog/${blog.id}`} className="block relative">
         {/* オーバーレイ - 全体（ホバー時） */}
         <div
           className={`absolute inset-0 bg-black z-10 transition-opacity duration-300 ease-in-out ${
@@ -54,7 +72,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         </div>
 
         <div className="p-3 space-y-2 relative">
-          <div className="font-semibold relative z-1">#{blog.title}</div>
+          <div className="font-semibold relative z-1">{blog.title}</div>
           <div className="text-gray-500 text-xs relative z-1">
             {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
           </div>
@@ -92,4 +110,4 @@ const BlogItem = ({ blog }: BlogItemProps) => {
   );
 };
 
-export default BlogItem;
+export default BlogItems;

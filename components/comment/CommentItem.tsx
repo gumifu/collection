@@ -174,61 +174,8 @@ const CommentItem = ({
 
       {/* モーダル */}
       {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          onClick={closeModal}
-        >
-          <div
-            className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full min-h-[25vh] max-h-[80vh] overflow-y-auto transition-transform duration-300 ease-in-out transform relative"
-            style={{
-              animation: "modalFadeIn 0.3s ease-in-out",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <style jsx global>{`
-              @keyframes modalFadeIn {
-                from {
-                  opacity: 0;
-                  transform: scale(0.95);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
-
-              @keyframes slideInLeft {
-                from {
-                  opacity: 0;
-                  transform: translateX(50px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateX(0);
-                }
-              }
-
-              @keyframes slideInRight {
-                from {
-                  opacity: 0;
-                  transform: translateX(-50px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateX(0);
-                }
-              }
-
-              .slide-left {
-                animation: slideInLeft 0.3s ease-in-out;
-              }
-
-              .slide-right {
-                animation: slideInRight 0.3s ease-in-out;
-              }
-            `}</style>
-
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="p-6 flex flex-col h-full">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
@@ -254,10 +201,7 @@ const CommentItem = ({
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={closeModal}
-                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                >
+                <button onClick={closeModal} className="modal-close-button">
                   <X className="h-6 w-6" />
                 </button>
               </div>
@@ -286,10 +230,10 @@ const CommentItem = ({
               )}
 
               {/* ページネーション表示 - 矢印を追加 */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2">
+              <div className="modal-pagination">
                 <button
                   onClick={goToPrevious}
-                  className={`rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out ${
+                  className={`modal-pagination-button ${
                     currentIndex <= 0
                       ? "opacity-0 cursor-not-allowed"
                       : "opacity-100"
@@ -299,13 +243,13 @@ const CommentItem = ({
                   <ChevronLeft className="h-4 w-4 text-gray-700 dark:text-gray-300" />
                 </button>
 
-                <div className="bg-white dark:bg-gray-700 rounded-full px-3 py-1 shadow-md text-sm">
+                <div className="modal-pagination-counter">
                   {currentIndex + 1} / {comments.length}
                 </div>
 
                 <button
                   onClick={goToNext}
-                  className={`rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out ${
+                  className={`modal-pagination-button ${
                     currentIndex >= comments.length - 1
                       ? "opacity-0 cursor-not-allowed"
                       : "opacity-100"
