@@ -18,7 +18,9 @@ const CommentSection = ({
 }: CommentSectionProps) => {
   return (
     <div className="mt-10 border-t pt-8">
-      <h2 className="font-bold text-xl mb-6">コメント ({comments.length})</h2>
+      <h2 className="font-bold text-xl mb-6">
+        みんなのコレクション ({comments.length})
+      </h2>
 
       <CommentList
         comments={comments}

@@ -8,7 +8,7 @@ import { newComment } from "@/actions/comment";
 import { Loader2 } from "lucide-react";
 import FormError from "@/components/auth/FormError";
 import toast from "react-hot-toast";
-import TipTapEditor from "@/components/blog/TipTapEditor";
+import ListOnlyEditor from "@/components/blog/ListOnlyEditor";
 
 interface CommentFormProps {
   blogId: string;
@@ -32,7 +32,7 @@ type CommentFormValues = z.infer<typeof commentFormSchema>;
 const CommentForm = ({ blogId, userId }: CommentFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
-  const [editorContent, setEditorContent] = useState("");
+  const [editorContent, setEditorContent] = useState("<ul><li></li></ul>");
 
   const {
     handleSubmit,
@@ -42,7 +42,7 @@ const CommentForm = ({ blogId, userId }: CommentFormProps) => {
   } = useForm<CommentFormValues>({
     resolver: zodResolver(commentFormSchema),
     defaultValues: {
-      content: "",
+      content: "<ul><li></li></ul>",
     },
   });
 
@@ -73,7 +73,7 @@ const CommentForm = ({ blogId, userId }: CommentFormProps) => {
 
         // フォームのリセット
         reset();
-        setEditorContent("");
+        setEditorContent("<ul><li></li></ul>");
         toast.success("コメントを投稿しました");
       } catch (error) {
         console.error(error);
@@ -84,10 +84,13 @@ const CommentForm = ({ blogId, userId }: CommentFormProps) => {
 
   return (
     <div className="mt-8">
-      <h3 className="font-bold text-lg mb-4">コメントを投稿</h3>
+      <h3 className="font-bold text-lg mb-4">コレクションを投稿</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <TipTapEditor content={editorContent} onChange={handleEditorChange} />
+          <ListOnlyEditor
+            content={editorContent}
+            onChange={handleEditorChange}
+          />
           {errors.content && (
             <p className="text-red-500 text-sm mt-1">
               {errors.content.message}
@@ -99,7 +102,7 @@ const CommentForm = ({ blogId, userId }: CommentFormProps) => {
           <button
             type="submit"
             disabled={isPending}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-70 transition"
+            className="bg-primary hover:opacity-80 text-white px-4 py-2 rounded disabled:opacity-70 transition"
           >
             {isPending ? (
               <div className="flex items-center">
@@ -107,7 +110,7 @@ const CommentForm = ({ blogId, userId }: CommentFormProps) => {
                 送信中...
               </div>
             ) : (
-              "コメントを投稿"
+              "コレクションを投稿"
             )}
           </button>
         </div>

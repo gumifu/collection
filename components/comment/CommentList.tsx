@@ -11,7 +11,9 @@ interface CommentListProps {
 
 const CommentList = ({ comments, currentUserId, blogId }: CommentListProps) => {
   if (comments.length === 0) {
-    return <p className="text-gray-500 mt-2">コメントはまだありません</p>;
+    return (
+      <p className="text-gray-500 mt-2">コレクションはまだありません...</p>
+    );
   }
 
   return (

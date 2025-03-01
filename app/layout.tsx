@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 // import ToastProvider from "@/components/providers/ToastProvider";
 import Navigation from "@/components/ui/navigation";
 import ToastProvider from "@/components/providers/ToastProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const notoSansJP = Noto_Sans_JP({
   weight: ["400", "700", "900"],
@@ -36,19 +37,24 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <html lang="ja">
-      <body className={notoSansJP.className} suppressHydrationWarning={true}>
-        <ToastProvider />
-        <div className="flex min-h-screen flex-col">
-          <Navigation user={user} />
+      <body
+        className={`${notoSansJP.className}`}
+        suppressHydrationWarning={true}
+      >
+        <ThemeProvider>
+          <ToastProvider />
+          <div className="flex min-h-screen flex-col dark:bg-gray-900 dark:text-white">
+            <Navigation user={user} />
 
-          <main className="flex-1">{children}</main>
+            <main className="flex-1">{children}</main>
 
-          <footer className="border-t py-2">
-            <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©Collextion Case ALL Rights Reserved.</div>
-            </div>
-          </footer>
-        </div>
+            <footer className="border-t py-2 dark:border-gray-700">
+              <div className="flex flex-col items-center justify-center text-sm space-y-5">
+                <div>©Collextion Case ALL Rights Reserved.</div>
+              </div>
+            </footer>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

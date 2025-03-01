@@ -127,7 +127,7 @@ const CommentItem = ({
   return (
     <>
       <div
-        className="bg-white rounded-lg p-4 border border-gray-200 h-full flex flex-col cursor-pointer hover:bg-gray-50 transition"
+        className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 h-full flex flex-col cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition"
         onClick={openModal}
       >
         <div className="flex items-start justify-between">
@@ -143,7 +143,7 @@ const CommentItem = ({
               <p className="font-semibold">
                 {comment.profiles?.name || "ユーザー"}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {format(new Date(comment.created_at), "yyyy/MM/dd HH:mm")}
               </p>
             </div>
@@ -165,7 +165,7 @@ const CommentItem = ({
         </div>
 
         <div
-          className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden"
+          className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden pl-4 dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: comment.content }}
         />
 
@@ -180,7 +180,7 @@ const CommentItem = ({
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-lg max-w-2xl w-full min-h-[25vh] max-h-[80vh] overflow-y-auto transition-transform duration-300 ease-in-out transform relative"
+            className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full min-h-[25vh] max-h-[80vh] overflow-y-auto transition-transform duration-300 ease-in-out transform relative"
             style={{
               animation: "modalFadeIn 0.3s ease-in-out",
             }}
@@ -246,7 +246,7 @@ const CommentItem = ({
                     <p className="font-bold text-lg">
                       {currentComment.profiles?.name || "ユーザー"}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {format(
                         new Date(currentComment.created_at),
                         "yyyy/MM/dd HH:mm"
@@ -256,14 +256,14 @@ const CommentItem = ({
                 </div>
                 <button
                   onClick={closeModal}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                 >
                   <X className="h-6 w-6" />
                 </button>
               </div>
 
               <div
-                className={`mt-4 prose prose-sm max-w-none flex-grow overflow-y-auto ${getSlideAnimationClass()}`}
+                className={`mt-4 prose prose-sm max-w-none flex-grow overflow-y-auto pl-4 dark:prose-invert ${getSlideAnimationClass()}`}
                 dangerouslySetInnerHTML={{ __html: currentComment.content }}
                 style={{ alignSelf: "flex-start" }}
               />
@@ -289,30 +289,30 @@ const CommentItem = ({
               <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2">
                 <button
                   onClick={goToPrevious}
-                  className={`rounded-full p-1 hover:bg-gray-300 transition-all duration-300 ease-in-out ${
+                  className={`rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out ${
                     currentIndex <= 0
                       ? "opacity-0 cursor-not-allowed"
                       : "opacity-100"
                   }`}
                   disabled={currentIndex <= 0}
                 >
-                  <ChevronLeft className="h-4 w-4 text-gray-700" />
+                  <ChevronLeft className="h-4 w-4 text-gray-700 dark:text-gray-300" />
                 </button>
 
-                <div className="bg-white rounded-full px-3 py-1 shadow-md text-sm">
+                <div className="bg-white dark:bg-gray-700 rounded-full px-3 py-1 shadow-md text-sm">
                   {currentIndex + 1} / {comments.length}
                 </div>
 
                 <button
                   onClick={goToNext}
-                  className={`rounded-full p-1 hover:bg-gray-300 transition-all duration-300 ease-in-out ${
+                  className={`rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out ${
                     currentIndex >= comments.length - 1
                       ? "opacity-0 cursor-not-allowed"
                       : "opacity-100"
                   }`}
                   disabled={currentIndex >= comments.length - 1}
                 >
-                  <ChevronRight className="h-4 w-4 text-gray-700" />
+                  <ChevronRight className="h-4 w-4 text-gray-700 dark:text-gray-300" />
                 </button>
               </div>
             </div>

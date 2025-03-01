@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 interface NavigationProps {
   user: User | null;
@@ -26,33 +27,37 @@ const Navigation = ({ user }: NavigationProps) => {
   };
 
   return (
-    <header className="border-b">
+    <header className="border-b dark:border-gray-700 dark:bg-gray-900">
       <div className="mx-auto max-w-screen-lg px-2 py-5 flex items-center justify-between">
         <Link href="/" className="font-bold text-xl">
           Collection Case
         </Link>
 
-        <div className="text-sm font-bold">
-          {user ? (
-            <div className="flex items-center space-x-5">
-              <Link href="/blog/new">
-                <div>投稿</div>
-              </Link>
+        <div className="flex items-center space-x-4">
+          <ThemeToggle />
 
-              <Link href="/settings/profile">
-                <div>設定</div>
-              </Link>
+          <div className="text-sm font-bold">
+            {user ? (
+              <div className="flex items-center space-x-5">
+                <Link href="/blog/new">
+                  <div>テーマを投稿</div>
+                </Link>
 
-              <div className="cursor-pointer" onClick={handleLogout}>
-                <LogOut className="h-5 w-5" />
+                <Link href="/settings/profile">
+                  <div>設定</div>
+                </Link>
+
+                <div className="cursor-pointer" onClick={handleLogout}>
+                  <LogOut className="h-5 w-5" />
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-5">
-              <Link href="/login">ログイン</Link>
-              <Link href="/signup">サインアップ</Link>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center space-x-5">
+                <Link href="/login">ログイン</Link>
+                <Link href="/signup">サインアップ</Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

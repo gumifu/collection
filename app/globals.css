@@ -10,8 +10,8 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #FFFFFF;
+  --foreground: #171717;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -48,8 +48,8 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: #1F1F1F;
+  --foreground: #EFEDE5;
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
@@ -136,12 +136,6 @@ body,
   height: 100%;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-
 .tiptap.ProseMirror:focus {
   outline: none;
 }
@@ -174,4 +168,35 @@ input:disabled,
 a.disabled,
 .cursor-not-allowed {
   cursor: not-allowed;
+}
+
+/* ダークモードへの変化アニメーション */
+@keyframes toDarkMode {
+  0% {
+    background-color: #FFFFFF;
+  }
+  50% {
+    background-color: #FF8C00; /* オレンジ色 */
+  }
+  100% {
+    background-color: #1F1F1F;
+  }
+}
+
+/* ライトモードへの変化アニメーション */
+@keyframes toLightMode {
+  0% {
+    background-color: #1F1F1F;
+  }
+  100% {
+    background-color: #FFFFFF;
+  }
+}
+
+.animate-to-dark {
+  animation: toDarkMode 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-to-light {
+  animation: toLightMode 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
