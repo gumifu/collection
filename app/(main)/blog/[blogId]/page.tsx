@@ -5,7 +5,6 @@ import Loading from "@/app/loading";
 
 type PageProps = {
   params: Promise<{ blogId: string }>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function BlogDetailPage(props: PageProps) {
