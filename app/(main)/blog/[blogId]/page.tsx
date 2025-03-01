@@ -10,7 +10,7 @@ interface BlogDetailPageProps {
 }
 
 const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
-  const { blogId } = await params;
+  const { blogId } = params;
   const supabase = await createClient();
 
   const { data: userData } = await supabase.auth.getUser();
