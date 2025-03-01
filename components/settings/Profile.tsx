@@ -35,7 +35,7 @@ const Profile = ({ profile }: ProfileProps) => {
   const [isPending, startTransition] = useTransition();
   const [imageUpload, setImageUpload] = useState<ImageListType>([
     {
-      dataURL: profile.avatar_url || "/default.webp",
+      dataURL: profile.avatar_url || "/avator-default.webp",
     },
   ]);
 
