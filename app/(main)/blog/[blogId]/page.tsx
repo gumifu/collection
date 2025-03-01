@@ -4,14 +4,12 @@ import BlogDetail from "@/components/blog/BlogDetail";
 import Loading from "@/app/loading";
 import { notFound } from "next/navigation";
 
-interface PageProps {
-  params: Promise<{ blogId: string }>;
-}
+type Params = Promise<{ blogId: string }>;
 
-export default async function BlogDetailPage(props: PageProps) {
+export default async function BlogDetailPage({ params }: { params: Params }) {
   try {
-    const params = await props.params;
-    const { blogId } = params;
+    const resolvedParams = await params;
+    const { blogId } = resolvedParams;
     const supabase = await createClient();
 
     const { data: userData, error: userError } = await supabase.auth.getUser();
