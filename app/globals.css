@@ -145,3 +145,23 @@ body,
 .tiptap.ProseMirror:focus {
   outline: none;
 }
+
+/* クリック可能な要素にカーソルポインターを適用 */
+button,
+a,
+[role="button"],
+[onclick],
+.cursor-pointer,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+/* disabled状態の要素にはnot-allowedカーソルを適用 */
+button:disabled,
+input:disabled,
+a.disabled,
+.cursor-not-allowed {
+  cursor: not-allowed;
+}

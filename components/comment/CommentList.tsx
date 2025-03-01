@@ -15,15 +15,19 @@ const CommentList = ({ comments, currentUserId, blogId }: CommentListProps) => {
   }
 
   return (
-    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {comments.map((comment) => (
-        <CommentItem
-          key={comment.id}
-          comment={comment}
-          currentUserId={currentUserId}
-          blogId={blogId}
-        />
-      ))}
+    <div className="mt-4 max-h-[30vh] overflow-y-auto pr-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {comments.map((comment, index) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            currentUserId={currentUserId}
+            blogId={blogId}
+            comments={comments}
+            index={index}
+          />
+        ))}
+      </div>
     </div>
   );
 };
