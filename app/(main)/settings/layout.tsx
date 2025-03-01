@@ -16,12 +16,14 @@ const subNavigation = [
   {
     name: "メールアドレス変更",
     icon: Mail,
-    href: "/settings/email",
+    // href: "/settings/email",
+    href: "#",
   },
   {
     name: "パスワード変更",
     icon: KeyRound,
-    href: "/settings/password",
+    // href: "/settings/password",
+    href: "#",
   },
 ];
 
