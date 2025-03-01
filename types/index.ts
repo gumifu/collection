@@ -15,3 +15,16 @@ export interface BlogType {
   updated_at: string
   created_at: string
 }
+
+export interface CommentType {
+  id: string
+  content: string
+  blog_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
+  profiles?: {
+    name: string
+    avatar_url: string | null
+  }
+}

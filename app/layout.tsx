@@ -14,8 +14,8 @@ const notoSansJP = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   title: {
-    template: "Supabase認証ブログ",
-    default: "Supabase認証ブログ",
+    template: "Collextion",
+    default: "Collexion",
   },
 };
 
@@ -36,7 +36,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <html lang="ja">
-      <body className={notoSansJP.className}>
+      <body className={notoSansJP.className} suppressHydrationWarning={true}>
         <ToastProvider />
         <div className="flex min-h-screen flex-col">
           <Navigation user={user} />
@@ -45,7 +45,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
           <footer className="border-t py-2">
             <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©CollectionCase. ALL Rights Reserved.</div>
+              <div>©Collextion. ALL Rights Reserved.</div>
             </div>
           </footer>
         </div>
