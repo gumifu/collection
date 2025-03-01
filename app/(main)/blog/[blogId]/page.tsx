@@ -54,7 +54,7 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
       </Suspense>
     );
   } catch (error) {
-    console.error("予期せぬエラー:", error);
+    console.error("予期せぬエラーが発生しました:", error);
     throw error; // Next.jsのエラーページにリダイレクト
   }
 }
