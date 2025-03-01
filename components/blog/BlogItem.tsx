@@ -37,7 +37,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         <div className="font-bold">{blog.title}</div>
         <div className="flex items-center space-x-3">
           <Image
-            src={blog.profiles.avatar_url || "/default.png"}
+            src={blog.profiles.avatar_url || "/default.webp"}
             className="rounded-full"
             alt="avatar"
             width={30}
