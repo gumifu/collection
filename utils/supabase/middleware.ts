@@ -32,11 +32,23 @@ export async function updateSession(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser()
 
-    if (
-      !user &&
-      !request.nextUrl.pathname.startsWith("/login") &&
-      !request.nextUrl.pathname.startsWith("/signup")
-    ) {
+    // ログインなしでアクセス可能なパス
+    const publicPaths = [
+      "/login",
+      "/signup",
+      "/",
+      "/blog",
+      "/profile",
+      "/reset-password"
+    ]
+
+    // パスがpublicPathsのいずれかで始まる場合はログインなしでアクセス可能
+    const isPublicPath = publicPaths.some(path =>
+      request.nextUrl.pathname === path ||
+      request.nextUrl.pathname.startsWith(`${path}/`)
+    )
+
+    if (!user && !isPublicPath) {
       const url = request.nextUrl.clone()
       url.pathname = "/login"
       return NextResponse.redirect(url)

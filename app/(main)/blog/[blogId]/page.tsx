@@ -12,12 +12,8 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
     const { blogId } = resolvedParams;
     const supabase = await createClient();
 
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    if (userError) {
-      console.error("認証エラー:", userError);
-      throw new Error("認証に失敗しました");
-    }
-
+    // ユーザー情報の取得（ログインしていなくてもエラーにならないように修正）
+    const { data: userData } = await supabase.auth.getUser();
     const user = userData?.user;
 
     // ブログ詳細取得
@@ -45,8 +41,8 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
       return notFound();
     }
 
-    // ログインユーザーがブログ作成者かどうか
-    const isMyBlog = user?.id === blogData.user_id;
+    // ログインユーザーがブログ作成者かどうか（ログインしていない場合はfalse）
+    const isMyBlog = user ? user.id === blogData.user_id : false;
 
     return (
       <Suspense fallback={<Loading />}>
