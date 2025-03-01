@@ -109,7 +109,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
           <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5">
             <Image
               src={blog.profiles.avatar_url || "/avator-default.webp"}
-              className="rounded-full object-cover aspect-square hover:opacity-80 transition-opacity"
+              className="rounded-full object-cover aspect-square"
               alt="avatar"
               width={100}
               height={100}
