@@ -146,3 +146,40 @@ export const editBlog = async (values: editBlogProps) => {
     return { error: "エラーが発生しました" }
   }
 }
+
+interface deleteBlogProps {
+  blogId: string
+  imageUrl: string | null
+  userId: string
+}
+
+// ブログ削除
+export const deleteBlog = async ({
+  blogId,
+  imageUrl,
+  userId,
+}: deleteBlogProps) => {
+  try {
+    const supabase = await createClient()
+
+    // ブログ削除
+    const { error } = await supabase.from("blogs").delete().eq("id", blogId)
+
+    if (error) {
+      return { error: error.message }
+    }
+
+    if (!imageUrl) {
+      return
+    }
+
+    // ファイル名取得
+    const fileName = imageUrl.split("/").slice(-1)[0]
+
+    // 画像を削除
+    await supabase.storage.from("blogs").remove([`${userId}/${fileName}`])
+  } catch (err) {
+    console.error(err)
+    return { error: "エラーが発生しました" }
+  }
+}
