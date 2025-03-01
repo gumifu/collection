@@ -24,6 +24,7 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import FormError from "@/components/auth/FormError";
+import TipTapEditor from "./TipTapEditor";
 
 interface BlogEditProps {
   blog: BlogType;
@@ -44,6 +45,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
     defaultValues: {
       title: blog.title,
       content: blog.content,
+      list: blog.list || "<ul><li></li></ul>",
     },
   });
 
@@ -196,6 +198,25 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
                     rows={10}
                     {...field}
                     disabled={isPending}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="list"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">リスト</FormLabel>
+                <FormControl>
+                  <TipTapEditor
+                    content={field.value || ""}
+                    onChange={(newContent) => {
+                      field.onChange(newContent);
+                    }}
                   />
                 </FormControl>
                 <FormMessage />

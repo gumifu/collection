@@ -1,5 +1,8 @@
+// @ts-check
+import typography from '@tailwindcss/typography';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -16,7 +19,31 @@ module.exports = {
         zenkaku: ['Zen Kaku Gothic New', 'sans-serif'],
         yugothic: ['"Yu Gothic"', '"YuGothic"', 'sans-serif'],
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100%',
+            color: 'inherit',
+            a: {
+              color: 'inherit',
+              textDecoration: 'underline',
+              fontWeight: '500',
+            },
+            strong: {
+              fontWeight: '700',
+            },
+            ol: {
+              listStyleType: 'decimal',
+            },
+            ul: {
+              listStyleType: 'disc',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
-}
+  plugins: [typography],
+};
+
+export default config;

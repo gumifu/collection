@@ -79,6 +79,15 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
           {blog.content}
         </div>
 
+        {blog.list && (
+          <div className="mt-8">
+            <h3 className="font-bold text-lg mb-2">リスト</h3>
+            <div className="prose prose-sm max-w-none">
+              <div dangerouslySetInnerHTML={{ __html: blog.list }} />
+            </div>
+          </div>
+        )}
+
         {isMyBlog && (
           <div className="flex items-center justify-end space-x-3">
             <Link href={`/blog/${blog.id}/edit`}>

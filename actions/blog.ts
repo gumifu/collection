@@ -56,8 +56,9 @@ export const newBlog = async (values: newBlogProps) => {
     const { error: insertError } = await supabase.from("blogs").insert({
       title: values.title,
       content: values.content,
-      image_url,
+      list: values.list,
       user_id: values.userId,
+      image_url,
     })
 
     // エラーチェック
@@ -133,6 +134,7 @@ export const editBlog = async (values: editBlogProps) => {
       .update({
         title: values.title,
         content: values.content,
+        list: values.list,
         image_url,
       })
       .eq("id", values.blogId)

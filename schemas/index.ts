@@ -49,4 +49,5 @@ export const ProfileSchema = z.object({
 export const BlogSchema = z.object({
   title: z.string().min(1, { message: "タイトルを入力してください" }),
   content: z.string().min(1, { message: "内容を入力してください" }),
+  list: z.string().optional(),
 })
