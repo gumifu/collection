@@ -35,7 +35,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
   const [isPending, startTransition] = useTransition();
   const [imageUpload, setImageUpload] = useState<ImageListType>([
     {
-      dataURL: blog.image_url || "/noImage.png",
+      dataURL: blog.image_url || "/noImage.webp",
     },
   ]);
 

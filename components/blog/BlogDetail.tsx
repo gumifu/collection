@@ -67,7 +67,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
         <div className="font-bold text-2xl">{blog.title}</div>
         <div>
           <Image
-            src={blog.image_url || "/noImage.png"}
+            src={blog.image_url || "/noImage.webp"}
             className="rounded object-cover"
             alt="image"
             width={768}
@@ -104,7 +104,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
       <div className="col-span-1">
         <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5">
           <Image
-            src={blog.profiles.avatar_url || "/noImage.png"}
+            src={blog.profiles.avatar_url || "/noImage.webp"}
             className="rounded-full object-cover"
             alt="avatar"
             width={100}

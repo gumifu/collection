@@ -20,7 +20,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       <Link href={`blog/${blog.id}`}>
         <div className="aspect-video relative overflow-hidden">
           <Image
-            src={blog.image_url || "/noImage.png"}
+            src={blog.image_url || "/noImage.webp"}
             className="rounded-t object-cover transition-transform duration-100 ease-in-out hover:scale-105"
             alt="image"
             width={640}
