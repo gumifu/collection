@@ -24,6 +24,7 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import FormError from "@/components/auth/FormError";
+import Link from "next/link";
 
 interface ProfileProps {
   profile: ProfileType;

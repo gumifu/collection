@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { UserRoundPen, Mail, KeyRound } from "lucide-react";
+import { UserRoundPen, Mail, KeyRound, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -12,6 +12,11 @@ const subNavigation = [
     name: "プロフィール",
     icon: UserRoundPen,
     href: "/settings/profile",
+  },
+  {
+    name: "マイコレクションを見る",
+    icon: Star,
+    href: "/my-collections",
   },
   {
     name: "メールアドレス変更",
