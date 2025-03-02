@@ -10,7 +10,7 @@ import { ThemeType } from "@/types";
 const MainPage = async () => {
   const supabase = await createClient();
 
-  // ブログ一覧取得
+  // コレクション一覧取得
   const { data: blogsData, error } = await supabase
     .from("blogs")
     .select(

@@ -81,7 +81,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
           return;
         }
 
-        toast.success("ブログを編集しました");
+        toast.success("コレクションを編集しました");
         router.push(`/blog/${blog.id}`);
         router.refresh();
       } catch (error) {
@@ -107,7 +107,9 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
 
   return (
     <div className="mx-auto max-w-screen-md">
-      <div className="font-bold text-xl text-center mb-10">ブログ編集</div>
+      <div className="font-bold text-xl text-center mb-10">
+        コレクション編集
+      </div>
 
       <div className="mb-5">
         <ImageUploading

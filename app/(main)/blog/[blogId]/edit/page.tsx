@@ -18,7 +18,7 @@ export default async function BlogEditPage({ params }: { params: Params }) {
     redirect("/");
   }
 
-  // ブログ詳細取得
+  // コレクション詳細取得
   const { data: blogData } = await supabase
     .from("blogs")
     .select("*")
@@ -26,10 +26,10 @@ export default async function BlogEditPage({ params }: { params: Params }) {
     .single();
 
   if (!blogData) {
-    return <div className="text-center">ブログが存在しません</div>;
+    return <div className="text-center">コレクションが存在しません</div>;
   }
 
-  // ブログ作成者とログインユーザーが一致しない場合
+  // コレクション作成者とログインユーザーが一致しない場合
   if (blogData.user_id !== user.id) {
     redirect(`/blog/${blogData.id}`);
   }

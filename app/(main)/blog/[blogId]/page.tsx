@@ -18,7 +18,7 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
     const { data: userData } = await supabase.auth.getUser();
     const user = userData?.user;
 
-    // ブログ詳細取得
+    // コレクション詳細取得
     const { data: blogData, error: blogError } = await supabase
       .from("blogs")
       .select(
@@ -35,8 +35,8 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
       .single();
 
     if (blogError) {
-      console.error("ブログ取得エラー:", blogError);
-      throw new Error("ブログの取得に失敗しました");
+      console.error("コレクション取得エラー:", blogError);
+      throw new Error("コレクションの取得に失敗しました");
     }
 
     if (!blogData) {
@@ -88,7 +88,7 @@ export default async function BlogDetailPage({ params }: { params: Params }) {
       // エラーが発生しても処理を続行
     }
 
-    // ログインユーザーがブログ作成者かどうか（ログインしていない場合はfalse）
+    // ログインユーザーがコレクション作成者かどうか（ログインしていない場合はfalse）
     const isMyBlog = user ? user.id === blogData.user_id : false;
 
     return (

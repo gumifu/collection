@@ -27,7 +27,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  // ブログ削除
+  // コレクション削除
   const handleDelete = async () => {
     if (!window.confirm("本当に削除しますか？")) {
       return;
@@ -48,7 +48,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
           return;
         }
 
-        toast.success("ブログを削除しました");
+        toast.success("コレクションを削除しました");
         router.push("/");
         router.refresh();
       } catch (error) {

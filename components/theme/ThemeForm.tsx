@@ -21,7 +21,6 @@ const ThemeForm = ({
   themePath,
 }: ThemeFormProps) => {
   const router = useRouter();
-  const [content, setContent] = useState("");
   const [list, setList] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -31,14 +30,14 @@ const ThemeForm = ({
     e.preventDefault();
     setError("");
 
-    if (!content.trim()) {
-      setError("内容を入力してください");
+    if (!list.trim()) {
+      setError("リストを入力してください");
       return;
     }
 
     startTransition(async () => {
       try {
-        console.log("投稿開始:", { content, list, themeId, userId });
+        console.log("投稿開始:", { list, themeId, userId });
         // リストからHTMLタグを除去して改行区切りのテキストに変換
         const cleanedList = list
           ? list
@@ -54,7 +53,7 @@ const ThemeForm = ({
           : "";
 
         const res = await createThemeItem({
-          content,
+          content: "", // 空の文字列を送信
           list: cleanedList,
           theme_id: themeId,
           user_id: userId,
@@ -69,7 +68,6 @@ const ThemeForm = ({
 
         console.log("投稿成功:", res);
         // 成功時の処理
-        setContent("");
         setList("");
         toast.success("投稿しました");
         router.refresh();
@@ -86,19 +84,8 @@ const ThemeForm = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="mb-4">
-            <textarea
-              className="w-full p-3 border rounded-md dark:bg-gray-700 dark:border-gray-600"
-              rows={4}
-              placeholder={`あなたの好きな${themeName}を共有しましょう...`}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              disabled={isPending}
-            />
-          </div>
-
-          <div className="mb-4">
             <label className="block text-sm font-medium mb-2">
-              リスト（箇条書き）
+              あなたの好きな{themeName}をリストで共有しましょう
             </label>
             <div className="border rounded-md overflow-hidden">
               <ListOnlyEditor content={list} onChange={setList} />

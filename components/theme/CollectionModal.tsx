@@ -168,7 +168,6 @@ const CollectionModal = ({
             className="mt-4 prose prose-sm max-w-none flex-grow overflow-y-auto pl-4 dark:prose-invert "
             style={{ alignSelf: "flex-start" }}
           >
-            {currentItem.content && <p>{currentItem.content}</p>}
             {currentItem.list && (
               <ul className="list-disc pl-4">
                 {formatListItems(currentItem.list)}

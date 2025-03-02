@@ -11,7 +11,7 @@ interface newBlogProps extends z.infer<typeof BlogSchema> {
   userId: string
 }
 
-// ブログ投稿
+// コレクション投稿
 export const newBlog = async (values: newBlogProps) => {
   try {
     const supabase = await createClient()
@@ -52,7 +52,7 @@ export const newBlog = async (values: newBlogProps) => {
       image_url = urlData.publicUrl
     }
 
-    // ブログ新規作成
+    // コレクション新規作成
     const { error: insertError } = await supabase.from("blogs").insert({
       title: values.title,
       content: values.content,
@@ -78,7 +78,7 @@ interface editBlogProps extends z.infer<typeof BlogSchema> {
   userId: string
 }
 
-// ブログ編集
+// コレクション編集
 export const editBlog = async (values: editBlogProps) => {
   try {
     const supabase = await createClient()
@@ -128,7 +128,7 @@ export const editBlog = async (values: editBlogProps) => {
       image_url = urlData.publicUrl
     }
 
-    // ブログ編集
+    // コレクション編集
     const { error: updateError } = await supabase
       .from("blogs")
       .update({
@@ -155,7 +155,7 @@ interface deleteBlogProps {
   userId: string
 }
 
-// ブログ削除
+// コレクション削除
 export const deleteBlog = async ({
   blogId,
   imageUrl,
@@ -164,7 +164,7 @@ export const deleteBlog = async ({
   try {
     const supabase = await createClient()
 
-    // ブログ削除
+    // コレクション削除
     const { error } = await supabase.from("blogs").delete().eq("id", blogId)
 
     if (error) {

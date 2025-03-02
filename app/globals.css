@@ -202,7 +202,7 @@ a.disabled,
   animation: toLightMode 500ms ease-in-out forwards;
 }
 
-/* ブログアイテムのリスト表示スタイル */
+/* コレクションアイテムのリスト表示スタイル */
 .group:hover .prose ul,
 .group:hover .prose ol {
   color: white;

@@ -67,7 +67,7 @@ const BlogNew = ({ userId }: BlogNewProps) => {
           return;
         }
 
-        toast.success("ブログを投稿しました");
+        toast.success("コレクションを投稿しました");
         router.push("/");
         router.refresh();
       } catch (error) {
@@ -93,7 +93,9 @@ const BlogNew = ({ userId }: BlogNewProps) => {
 
   return (
     <div className="mx-auto max-w-screen-md">
-      <div className="font-bold text-xl text-center mb-10">ブログ投稿</div>
+      <div className="font-bold text-xl text-center mb-10">
+        オリジナルテーマ投稿
+      </div>
 
       <div className="mb-5">
         <ImageUploading

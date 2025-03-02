@@ -110,7 +110,6 @@ const CollectionItem = ({
           )}
         </div>
         <div className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden pl-4 dark:prose-invert">
-          {item.content && <p>{item.content}</p>}
           {item.list && (
             <ul className="list-disc pl-4">{formatListItems(item.list)}</ul>
           )}

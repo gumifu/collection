@@ -94,7 +94,7 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
   return (
     <Suspense fallback={<Loading />}>
       <div>
-        {/* メインコンテンツ - ブログ詳細と同じグリッドレイアウト */}
+        {/* メインコンテンツ - コレクション詳細と同じグリッドレイアウト */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           <div className="col-span-1 sm:col-span-2 space-y-5 order-first">
             <div>
