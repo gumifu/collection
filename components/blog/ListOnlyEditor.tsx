@@ -3,11 +3,14 @@ import StarterKit from "@tiptap/starter-kit";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   List as BulletListIcon,
   ListOrdered as OrderedListIcon,
+  CheckSquare as CheckboxIcon,
 } from "lucide-react";
 
 interface ListOnlyEditorProps {
@@ -46,11 +49,26 @@ const ListOnlyEditor = ({ content, onChange }: ListOnlyEditorProps) => {
           class: "my-1",
         },
       }),
+      TaskList.configure({
+        HTMLAttributes: {
+          class: "not-prose pl-2",
+        },
+      }),
+      TaskItem.configure({
+        HTMLAttributes: {
+          class: "flex items-start my-1",
+        },
+        nested: true,
+      }),
     ],
     content: content || "<ul><li></li></ul>",
     onUpdate: ({ editor }) => {
       try {
-        if (!editor.isActive("bulletList") && !editor.isActive("orderedList")) {
+        if (
+          !editor.isActive("bulletList") &&
+          !editor.isActive("orderedList") &&
+          !editor.isActive("taskList")
+        ) {
           editor.chain().toggleBulletList().run();
         }
         const html = editor.getHTML();
@@ -76,7 +94,11 @@ const ListOnlyEditor = ({ content, onChange }: ListOnlyEditorProps) => {
         }
 
         // リストが有効でない場合は強制的に設定
-        if (!editor.isActive("bulletList") && !editor.isActive("orderedList")) {
+        if (
+          !editor.isActive("bulletList") &&
+          !editor.isActive("orderedList") &&
+          !editor.isActive("taskList")
+        ) {
           editor.commands.toggleBulletList();
         }
 
@@ -96,7 +118,11 @@ const ListOnlyEditor = ({ content, onChange }: ListOnlyEditorProps) => {
         const selection = editor.state.selection;
         editor.commands.setContent(content || "<ul><li></li></ul>");
 
-        if (!editor.isActive("bulletList") && !editor.isActive("orderedList")) {
+        if (
+          !editor.isActive("bulletList") &&
+          !editor.isActive("orderedList") &&
+          !editor.isActive("taskList")
+        ) {
           editor.commands.toggleBulletList();
         }
 
@@ -116,7 +142,8 @@ const ListOnlyEditor = ({ content, onChange }: ListOnlyEditorProps) => {
           try {
             if (
               !editor.isActive("bulletList") &&
-              !editor.isActive("orderedList")
+              !editor.isActive("orderedList") &&
+              !editor.isActive("taskList")
             ) {
               editor.commands.toggleBulletList();
             }
@@ -177,6 +204,24 @@ const ListOnlyEditor = ({ content, onChange }: ListOnlyEditorProps) => {
           title="番号付きリスト"
         >
           <OrderedListIcon className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            try {
+              if (!editor.isActive("taskList")) {
+                editor.chain().focus().toggleTaskList().run();
+              }
+            } catch (error) {
+              console.error("チェックボックスリスト切替エラー:", error);
+            }
+          }}
+          className={editor.isActive("taskList") ? "bg-gray-200" : ""}
+          title="チェックボックスリスト"
+        >
+          <CheckboxIcon className="h-4 w-4" />
         </Button>
       </div>
       <EditorContent

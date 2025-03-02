@@ -64,9 +64,32 @@ const CollectionItem = ({
           .replace(/&nbsp;/g, " ")
           .trim();
 
+        // チェックボックスの状態を検出（データ形式によって調整が必要かもしれません）
+        const isChecked =
+          line.includes('checked="true"') || line.includes('checked="checked"');
+        const hasCheckbox =
+          line.includes('type="checkbox"') ||
+          line.includes('<li data-type="taskItem"');
+
         return cleanLine ? (
-          <li key={index} className="my-1">
-            {cleanLine}
+          <li
+            key={index}
+            className={`my-1 ${hasCheckbox ? "flex items-center gap-2" : ""}`}
+          >
+            {hasCheckbox && (
+              <div className="relative inline-block w-4 h-4 mr-2 pointer-events-none">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  readOnly
+                  disabled
+                  className="h-4 w-4 rounded border-gray-300 pointer-events-none opacity-100"
+                />
+                {/* 透明なオーバーレイでクリックを防止 */}
+                <div className="absolute inset-0 bg-transparent"></div>
+              </div>
+            )}
+            <span>{cleanLine}</span>
           </li>
         ) : null;
       })
