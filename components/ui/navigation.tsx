@@ -74,7 +74,7 @@ const Navigation = ({ user }: NavigationProps) => {
             {user ? (
               <div className="flex items-center space-x-5">
                 <Link href="/blog/new">
-                  <div>テーマを投稿</div>
+                  <div>コレクションを投稿</div>
                 </Link>
 
                 <Link href="/settings/profile">
