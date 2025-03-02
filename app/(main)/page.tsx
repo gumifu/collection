@@ -6,6 +6,7 @@ import { ThemeType } from "@/types";
 import InfiniteOriginalThemes from "@/components/blog/InfiniteOriginalThemes";
 import Image from "next/image";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
 
 // メインページ
 const MainPage = async () => {
@@ -17,6 +18,16 @@ const MainPage = async () => {
   const displayThemes = themeObjects.slice(0, 11).map((theme) => theme.name);
   // 全てのテーマ（ThemeSelectorコンポーネントに渡す）
   const allThemes = themeObjects.map((theme) => theme.name);
+
+  // ログインユーザー情報を取得
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
+
+  // コレクション作成ボタンのリンク先を設定
+  const createCollectionLink = user ? "/blog/new" : "/login";
 
   return (
     <Suspense fallback={<Loading />}>
@@ -42,10 +53,11 @@ const MainPage = async () => {
                 collextion
               </h1>
               <p className="text-xl md:text-2xl text-center max-w-2xl mb-8">
-                あなただけの ” ベスト ” コレクションを作成して共有しよう！
+                あなただけの &ldquo; ベスト &rdquo;
+                コレクションを作成して共有しよう！
               </p>
               <Link
-                href="/blog/new"
+                href={createCollectionLink}
                 className="bg-white text-black hover:bg-gray-100 transition-colors px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-transform"
               >
                 コレクションを作成する
