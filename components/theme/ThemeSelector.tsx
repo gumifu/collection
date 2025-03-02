@@ -13,9 +13,15 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ThemeSelectorProps {
   themes: string[];
+  showAllLink?: boolean;
+  allThemes?: string[];
 }
 
-const ThemeSelector = ({ themes }: ThemeSelectorProps) => {
+const ThemeSelector = ({
+  themes,
+  showAllLink = false,
+  allThemes = [],
+}: ThemeSelectorProps) => {
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [themeItems, setThemeItems] = useState<ThemeItemType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -397,6 +403,18 @@ const ThemeSelector = ({ themes }: ThemeSelectorProps) => {
             </p>
           </div>
         ))}
+
+        {showAllLink && (
+          <Link
+            href="/themes"
+            className="p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
+          >
+            <h3 className="text-lg font-bold mb-2 text-center">全てを見る</h3>
+            <p className="text-opacity-80 text-sm text-center">
+              {allThemes.length}個のテーマ
+            </p>
+          </Link>
+        )}
       </div>
     </div>
   );
