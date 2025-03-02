@@ -389,40 +389,42 @@ const ThemeSelector = ({
   // テーマ一覧表示
   return (
     <div className="container mx-auto w-full mb-16 px-4 sm:px-0">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        {themes.map((theme, index) => (
-          <div
-            key={index}
-            className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg"
-            style={{
-              background: `linear-gradient(135deg, ${getGradientColor(
-                index
-              )}, ${getLighterColor(getGradientColor(index))})`,
-            }}
-            onClick={() => handleThemeClick(theme)}
-          >
-            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">
-              #{theme}
-            </h3>
-            <p className="text-white text-opacity-80 text-xs sm:text-sm">
-              {theme}に関するコレクションを見る
-            </p>
-          </div>
-        ))}
+      <div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4">
+          {themes.map((theme, index) => (
+            <div
+              key={index}
+              className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg"
+              style={{
+                background: `linear-gradient(135deg, ${getGradientColor(
+                  index
+                )}, ${getLighterColor(getGradientColor(index))})`,
+              }}
+              onClick={() => handleThemeClick(theme)}
+            >
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">
+                #{theme}
+              </h3>
+              <p className="text-white text-opacity-80 text-xs sm:text-sm">
+                {theme}に関するコレクションを見る
+              </p>
+            </div>
+          ))}
 
-        {showAllLink && (
-          <Link
-            href="/themes"
-            className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
-          >
-            <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 text-center">
-              全てを見る
-            </h3>
-            <p className="text-opacity-80 text-xs sm:text-sm text-center">
-              {allThemes.length}個のテーマ
-            </p>
-          </Link>
-        )}
+          {showAllLink && (
+            <Link
+              href="/themes"
+              className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
+            >
+              <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 text-center">
+                全てを見る
+              </h3>
+              <p className="text-opacity-80 text-xs sm:text-sm text-center">
+                {allThemes.length}個のテーマ
+              </p>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

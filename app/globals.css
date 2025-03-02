@@ -435,3 +435,24 @@ a.disabled,
   -ms-user-select: none !important;
   cursor: default !important;
 }
+
+/* スクロールバーを非表示にするユーティリティクラス */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* iOS風のスクロール挙動を強化 */
+.ios-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.ios-scroll > * {
+  scroll-snap-align: start;
+}
