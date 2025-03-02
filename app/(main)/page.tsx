@@ -5,7 +5,6 @@ import Loading from "@/app/loading";
 import ThemeSelector from "@/components/theme/ThemeSelector";
 import { getThemes } from "@/actions/theme";
 import { ThemeType } from "@/types";
-import Link from "next/link";
 
 // メインページ
 const MainPage = async () => {
@@ -41,15 +40,17 @@ const MainPage = async () => {
   return (
     <Suspense fallback={<Loading />}>
       <div className="space-y-6">
-        <h2 className="text-3xl font-bold mb-8">テーマ</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">テーマ</h2>
         <ThemeSelector
           themes={displayThemes}
           showAllLink={true}
           allThemes={allThemes}
         />
 
-        <h2 className="text-3xl font-bold mb-8">みんなのオリジナルテーマ</h2>
-        <div className="grid grid-cols-3 gap-5">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
+          みんなのオリジナルテーマ
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {blogsData.map((blog) => {
             return <BlogItem key={blog.id} blog={blog} />;
           })}

@@ -130,14 +130,14 @@ const ThemeSelector = ({
     const latestThemeItems = themeItems.slice(0, 6);
 
     return (
-      <div className="space-y-8">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          <div className="col-span-1 sm:col-span-2 space-y-5 order-first">
+      <div className="space-y-8 px-4 sm:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="col-span-1 md:col-span-2 space-y-5 order-first">
             <div>
               <Image
                 src="/noImage.webp"
                 alt={selectedTheme}
-                className="rounded object-cover"
+                className="rounded object-cover w-full"
                 width={768}
                 height={432}
                 priority
@@ -148,14 +148,16 @@ const ThemeSelector = ({
               {format(new Date(), "yyyy/MM/dd")}
             </div>
 
-            <div className="font-bold text-2xl">#{selectedTheme}</div>
+            <div className="font-bold text-xl sm:text-2xl">
+              #{selectedTheme}
+            </div>
 
-            <div className="leading-relaxed break-words whitespace-pre-wrap">
+            <div className="leading-relaxed break-words whitespace-pre-wrap text-sm sm:text-base">
               「{selectedTheme}
               」に関するコレクションです。あなたのお気に入りを投稿してみましょう。
             </div>
 
-            <div className="prose dark:prose-invert max-w-none">
+            <div className="prose dark:prose-invert max-w-none text-sm sm:text-base">
               <ul>
                 <li>あなたの好きな{selectedTheme}を共有しましょう</li>
                 <li>写真や詳細な説明を添えると、より魅力的な投稿になります</li>
@@ -164,7 +166,7 @@ const ThemeSelector = ({
             </div>
           </div>
 
-          <div className="col-span-1 order-last md:order-none">
+          <div className="col-span-1 order-last md:order-none mt-6 md:mt-0">
             <div className="md:sticky md:top-4">
               <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5 dark:border-gray-700 dark:bg-gray-800">
                 <Image
@@ -176,7 +178,7 @@ const ThemeSelector = ({
                   priority
                 />
                 <div className="font-bold font-yugothic">Collection Case</div>
-                <p className="text-gray-600 dark:text-gray-300 mt-1 text-center">
+                <p className="text-gray-600 dark:text-gray-300 mt-1 text-center text-sm">
                   テーマに沿ったコレクションを投稿してみましょう
                 </p>
               </div>
@@ -186,7 +188,7 @@ const ThemeSelector = ({
 
         {/* コメントセクション */}
         <div className="mt-10 border-t pt-8">
-          <h2 className="font-bold text-xl mb-6">
+          <h2 className="font-bold text-lg sm:text-xl mb-6">
             みんなのテーマ ({latestThemeItems.length}/{themeItems.length})
           </h2>
 
@@ -195,7 +197,7 @@ const ThemeSelector = ({
             <div className="text-center py-8">読み込み中...</div>
           ) : themeItems.length > 0 ? (
             <div className="mt-4 pr-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {latestThemeItems.map((item, index) => (
                   <div
                     key={item.id}
@@ -214,7 +216,9 @@ const ThemeSelector = ({
                           className="rounded-full aspect-square"
                         />
                         <div>
-                          <p className="font-semibold">{item.profiles.name}</p>
+                          <p className="font-semibold text-sm sm:text-base">
+                            {item.profiles.name}
+                          </p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             {format(
                               new Date(item.created_at),
@@ -225,7 +229,7 @@ const ThemeSelector = ({
                       </div>
                     </div>
 
-                    <div className="mt-4 whitespace-pre-wrap leading-relaxed">
+                    <div className="mt-4 whitespace-pre-wrap leading-relaxed text-sm">
                       {item.content}
                     </div>
 
@@ -384,12 +388,12 @@ const ThemeSelector = ({
 
   // テーマ一覧表示
   return (
-    <div className="container mx-auto w-full mb-16">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto w-full mb-16 px-4 sm:px-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {themes.map((theme, index) => (
           <div
             key={index}
-            className="p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg"
+            className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg"
             style={{
               background: `linear-gradient(135deg, ${getGradientColor(
                 index
@@ -397,8 +401,10 @@ const ThemeSelector = ({
             }}
             onClick={() => handleThemeClick(theme)}
           >
-            <h3 className="text-lg font-bold text-white mb-2">#{theme}</h3>
-            <p className="text-white text-opacity-80 text-sm">
+            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">
+              #{theme}
+            </h3>
+            <p className="text-white text-opacity-80 text-xs sm:text-sm">
               {theme}に関するコレクションを見る
             </p>
           </div>
@@ -407,10 +413,12 @@ const ThemeSelector = ({
         {showAllLink && (
           <Link
             href="/themes"
-            className="p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
+            className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
           >
-            <h3 className="text-lg font-bold mb-2 text-center">全てを見る</h3>
-            <p className="text-opacity-80 text-sm text-center">
+            <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 text-center">
+              全てを見る
+            </h3>
+            <p className="text-opacity-80 text-xs sm:text-sm text-center">
               {allThemes.length}個のテーマ
             </p>
           </Link>

@@ -21,8 +21,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  maximumScale: 1,
-  userScalable: false,
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 interface RootLayoutProps {
@@ -46,7 +48,9 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
           <div className="flex min-h-screen flex-col dark:bg-gray-900 dark:text-white">
             <Navigation user={user} />
 
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 container mx-auto max-w-screen-lg py-6">
+              {children}
+            </main>
 
             <footer className="border-t py-2 dark:border-gray-700">
               <div className="flex flex-col items-center justify-center text-sm space-y-5">
