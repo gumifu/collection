@@ -35,6 +35,9 @@ const ThemeForm = ({
       return;
     }
 
+    console.log("フォーム送信開始:", { themeId, userId, themePath });
+    console.log("リスト内容:", list);
+
     startTransition(async () => {
       try {
         console.log("投稿開始:", { list, themeId, userId });
@@ -52,6 +55,8 @@ const ThemeForm = ({
               .trim()
           : "";
 
+        console.log("クリーニング後のリスト:", cleanedList);
+
         const res = await createThemeItem({
           content: "", // 空の文字列を送信
           list: cleanedList,
@@ -59,6 +64,8 @@ const ThemeForm = ({
           user_id: userId,
           themePath,
         });
+
+        console.log("サーバーレスポンス:", res);
 
         if (res?.error) {
           console.error("投稿エラー:", res.error);

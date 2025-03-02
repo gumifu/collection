@@ -168,11 +168,17 @@ export const getThemeItems = async (themeId: string) => {
 
 // テーマアイテムの作成
 const ThemeItemSchema = z.object({
-  content: z.string().min(1, "内容は必須です"),
+  content: z.string().optional(),
   list: z.string().optional(),
   theme_id: z.string().min(1, "テーマIDは必須です"),
   user_id: z.string().min(1, "ユーザーIDは必須です"),
   themePath: z.string().optional(),
+}).refine(data => {
+  // contentかlistのどちらかが存在すればOK
+  return data.content?.trim() || data.list?.trim();
+}, {
+  message: "内容またはリストのどちらかは必須です",
+  path: ["content"]
 });
 
 export type NewThemeItemProps = z.infer<typeof ThemeItemSchema>;

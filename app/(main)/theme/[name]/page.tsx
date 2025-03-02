@@ -14,11 +14,15 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params;
   const decodedName = decodeURIComponent(name);
 
+  console.log("テーマページ表示:", decodedName);
+
   // ログインユーザー情報を取得（存在しない場合はnull）
   const {
     data: { session },
   } = await supabase.auth.getSession();
   const user = session?.user || null;
+
+  console.log("ログインユーザー:", user?.id || "未ログイン");
 
   // テーマの詳細情報を取得（FV画像を含む）
   const { data: themeData, error: themeError } = await supabase
@@ -26,6 +30,8 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
     .select("*")
     .eq("name", decodedName)
     .single();
+
+  console.log("テーマデータ:", themeData || "取得失敗");
 
   // テーマが見つからない場合
   if (themeError) {
@@ -50,14 +56,16 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
     .from("theme_items")
     .select("*")
     .eq("theme_id", themeData?.id)
-    .order("created_at", { ascending: false })
-    .limit(10);
+    .order("created_at", { ascending: false });
+
+  console.log("テーマアイテム取得:", themeItemsData?.length || 0, "件");
+  if (themeItemsError) {
+    console.error("テーマアイテム取得エラー:", themeItemsError);
+  }
 
   let themeItems = themeItemsData || [];
 
-  if (themeItemsError) {
-    console.error("テーマアイテム取得エラー:", themeItemsError);
-  } else if (themeItems.length > 0) {
+  if (themeItems.length > 0) {
     // ユーザーIDを抽出
     const userIds = [...new Set(themeItems.map((item) => item.user_id))];
 
@@ -66,6 +74,8 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
       .from("profiles")
       .select("id, name, avatar_url")
       .in("id", userIds);
+
+    console.log("プロフィール情報取得:", profilesData?.length || 0, "件");
 
     // プロフィール情報をマップ
     const profilesMap = profilesData
@@ -88,7 +98,7 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
   // 削除後のリフレッシュ用関数
   async function refreshThemePage() {
     "use server";
-    revalidatePath(`/theme/${decodedName}`);
+    revalidatePath(`/theme/${name}`);
   }
 
   return (
@@ -154,7 +164,7 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
             みんなのコレクション ({themeItems.length})
           </h2>
 
-          <div className="mt-4 max-h-[30vh] overflow-y-auto pr-2">
+          <div className="mt-4 max-h-[50vh] overflow-y-auto pr-2">
             {themeItems.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {themeItems.map((item) => (
