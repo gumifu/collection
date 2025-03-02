@@ -77,16 +77,18 @@ const CollectionItem = ({
             className={`my-1 ${hasCheckbox ? "flex items-center gap-2" : ""}`}
           >
             {hasCheckbox && (
-              <div className="relative inline-block w-4 h-4 mr-2 pointer-events-none">
+              <div className="relative inline-block w-4 h-4 mr-2 checkbox-disabled">
                 <input
                   type="checkbox"
                   checked={isChecked}
                   readOnly
                   disabled
                   className="h-4 w-4 rounded border-gray-300 pointer-events-none opacity-100"
+                  tabIndex={-1}
+                  aria-disabled="true"
+                  onClick={(e) => e.preventDefault()}
                 />
-                {/* 透明なオーバーレイでクリックを防止 */}
-                <div className="absolute inset-0 bg-transparent"></div>
+                <div className="checkbox-overlay"></div>
               </div>
             )}
             <span>{cleanLine}</span>
@@ -134,7 +136,9 @@ const CollectionItem = ({
         </div>
         <div className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden pl-4 dark:prose-invert">
           {item.list && (
-            <ul className="list-disc pl-4">{formatListItems(item.list)}</ul>
+            <div className="task-list-disabled">
+              <ul className="list-disc pl-4">{formatListItems(item.list)}</ul>
+            </div>
           )}
         </div>
       </div>
