@@ -18,6 +18,22 @@ export const getThemes = async () => {
       return { error: error.message };
     }
 
+    // 指定されたIDのテーマを優先的に表示するように並べ替え
+    const priorityThemeIds = [
+      "ab51c039-62ff-49a0-97e6-6369fecd77b0",
+      "c723eddb-2bf2-4593-b40d-8fe92b22defe"
+    ];
+
+    if (data) {
+      // 優先テーマとそれ以外のテーマに分ける
+      const priorityThemes = data.filter(theme => priorityThemeIds.includes(theme.id));
+      const otherThemes = data.filter(theme => !priorityThemeIds.includes(theme.id));
+
+      // 優先テーマを先頭に、それ以外のテーマを後ろに配置
+      const sortedData = [...priorityThemes, ...otherThemes];
+      return { data: sortedData };
+    }
+
     return { data };
   } catch (error) {
     console.error(error);

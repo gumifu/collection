@@ -34,7 +34,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={`blog/${blog.id}`} className="block relative">
+      <Link href={`blog/${blog.id}`} className="block relative bg-white">
         {/* オーバーレイ - 全体（ホバー時） */}
         <div
           className={`absolute inset-0 bg-black z-10 transition-opacity duration-300 ease-in-out ${

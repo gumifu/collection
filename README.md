@@ -34,5 +34,38 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## ダミーデータの生成
+
+### 方法 1: SQL を使用する方法
+
+Supabase のダッシュボードから直接 SQL を実行してダミーデータを生成できます。
+
+1. Supabase ダッシュボードにログインする
+2. 左側のメニューから「SQL Editor」を選択
+3. 新しいクエリを作成し、`sql/insert_dummy_data.sql`の内容をコピー＆ペースト
+4. 「Run」ボタンをクリックして SQL を実行
+
+この方法では、Row Level Security (RLS)ポリシーを一時的に無効化してデータを挿入し、その後再度有効化します。
+
+### 方法 2: スクリプトを使用する方法
+
+Node.js スクリプトを使用してダミーデータを生成することもできます。
+
+```bash
+# 必要なパッケージをインストール
+npm install ts-node dotenv uuid @supabase/supabase-js --save-dev
+
+# 環境変数を設定
+# .envファイルに以下を追加
+# SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# スクリプトを実行
+npm run generate-dummy-data
+```
+
+注意: この方法では、Supabase のサービスロールキーが必要です。これはダッシュボードの「Project Settings」→「API」から取得できます。
+
 # collection
+
 # collection

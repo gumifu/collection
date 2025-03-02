@@ -7,6 +7,7 @@ import { LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 import { useState } from "react";
+import Image from "next/image";
 
 interface NavigationProps {
   user: User | null;
@@ -33,23 +34,37 @@ const Navigation = ({ user }: NavigationProps) => {
   };
 
   return (
-    <header className="border-b dark:border-gray-700 dark:bg-gray-900">
+    <header className="border-b dark:border-gray-700 dark:bg-gray-900 relative overflow-visible">
       <div className="mx-auto max-w-screen-lg px-4 py-5 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-bold text-xl"
-          onClick={(e) => {
-            // テーマ詳細ページが開いている場合は、通常のリンク動作をキャンセルして
-            // URLを直接変更し、ページをリフレッシュする
-            if (window.location.search.includes("theme=")) {
-              e.preventDefault();
-              window.history.pushState({}, "", "/");
-              window.location.reload();
-            }
-          }}
-        >
-          collextion
-        </Link>
+        <div className="flex items-center">
+          <Link
+            href="/"
+            className="font-bold text-2xl"
+            onClick={(e) => {
+              // テーマ詳細ページが開いている場合は、通常のリンク動作をキャンセルして
+              // URLを直接変更し、ページをリフレッシュする
+              if (window.location.search.includes("theme=")) {
+                e.preventDefault();
+                window.history.pushState({}, "", "/");
+                window.location.reload();
+              }
+            }}
+          >
+            collextion
+          </Link>
+          <div
+            className="relative"
+            style={{ marginLeft: "-10px", marginTop: "-20px" }}
+          >
+            <Image
+              src="/Union.svg"
+              alt="Union icon"
+              width={120}
+              height={120}
+              className="absolute -top-10 -right-10"
+            />
+          </div>
+        </div>
 
         {/* デスクトップメニュー */}
         <div className="hidden md:flex items-center space-x-4">

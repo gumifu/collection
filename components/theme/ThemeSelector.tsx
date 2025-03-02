@@ -414,7 +414,7 @@ const ThemeSelector = ({
           {showAllLink && (
             <Link
               href="/themes"
-              className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 hover:shadow-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
+              className="p-4 sm:p-6 rounded-lg cursor-pointer transition-transform hover:opacity-80 border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center"
             >
               <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 text-center">
                 全てを見る
