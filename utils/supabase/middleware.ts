@@ -39,7 +39,8 @@ export async function updateSession(request: NextRequest) {
       "/",
       "/blog",
       "/profile",
-      "/reset-password"
+      "/reset-password",
+      "/theme"
     ]
 
     // パスがpublicPathsのいずれかで始まる場合はログインなしでアクセス可能

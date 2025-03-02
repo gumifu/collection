@@ -247,6 +247,15 @@ a.disabled,
 @keyframes modalFadeIn {
   from {
     opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalContentFadeIn {
+  from {
+    opacity: 0;
     transform: scale(0.95);
   }
   to {
@@ -285,28 +294,96 @@ a.disabled,
   animation: slideInRight 0.3s ease-in-out;
 }
 
+/* モーダルオーバーレイ */
 .modal-overlay {
-  @apply fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  animation: modalFadeIn 0.3s ease-out;
 }
 
+/* モーダルコンテナ */
 .modal-container {
-  @apply bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full min-h-[25vh] max-h-[80vh] overflow-y-auto transition-transform duration-300 ease-in-out transform relative;
-  animation: modalFadeIn 0.3s ease-in-out;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalContentFadeIn 0.3s ease-out;
 }
 
+/* ダークモード対応 */
+.dark .modal-container {
+  background-color: #1F1F1F;
+  border: 1px solid #333;
+}
+
+/* モーダル閉じるボタン */
 .modal-close-button {
-  @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors;
+  color: #6B7280;
+  transition: color 0.2s;
 }
 
+.modal-close-button:hover {
+  color: #111827;
+}
+
+.dark .modal-close-button:hover {
+  color: #F9FAFB;
+}
+
+/* ページネーション */
 .modal-pagination {
-  @apply absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.dark .modal-pagination {
+  border-top: 1px solid #374151;
 }
 
 .modal-pagination-button {
-  @apply rounded-full p-1 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: #F3F4F6;
+  transition: background-color 0.2s;
+}
+
+.dark .modal-pagination-button {
+  background-color: #374151;
+}
+
+.modal-pagination-button:hover:not(:disabled) {
+  background-color: #E5E7EB;
+}
+
+.dark .modal-pagination-button:hover:not(:disabled) {
+  background-color: #4B5563;
 }
 
 .modal-pagination-counter {
-  @apply bg-white dark:bg-gray-700 rounded-full px-3 py-1 shadow-md text-sm;
+  margin: 0 0.75rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.dark .modal-pagination-counter {
+  color: #9CA3AF;
 }

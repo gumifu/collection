@@ -39,9 +39,23 @@ const ThemeForm = ({
     startTransition(async () => {
       try {
         console.log("投稿開始:", { content, list, themeId, userId });
+        // リストからHTMLタグを除去して改行区切りのテキストに変換
+        const cleanedList = list
+          ? list
+              .replace(/<ul[^>]*>/g, "")
+              .replace(/<\/ul>/g, "")
+              .replace(/<li[^>]*>/g, "")
+              .replace(/<\/li>/g, "\n")
+              .replace(/<p[^>]*>/g, "")
+              .replace(/<\/p>/g, "")
+              .replace(/<br\s*\/?>/g, "\n")
+              .replace(/&nbsp;/g, " ")
+              .trim()
+          : "";
+
         const res = await createThemeItem({
           content,
-          list,
+          list: cleanedList,
           theme_id: themeId,
           user_id: userId,
           themePath,
@@ -68,7 +82,7 @@ const ThemeForm = ({
 
   return (
     <div className="mt-8">
-      <h3 className="font-medium mb-4">あなたのコレクションを投稿</h3>
+      {/* <h3 className="font-medium mb-4">あなたのコレクションを投稿</h3> */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="mb-4">

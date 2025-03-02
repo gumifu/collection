@@ -39,7 +39,7 @@ const MainPage = async () => {
         <h2 className="text-3xl font-bold mb-8">テーマ</h2>
         <ThemeSelector themes={themes} />
 
-        <h2 className="text-3xl font-bold mb-8">みんなのテーマ</h2>
+        <h2 className="text-3xl font-bold mb-8">みんなのオリジナルテーマ</h2>
         <div className="grid grid-cols-3 gap-5">
           {blogsData.map((blog) => {
             return <BlogItem key={blog.id} blog={blog} />;

@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import ThemeForm from "@/components/theme/ThemeForm";
+import CollectionItem from "@/components/theme/CollectionItem";
+import { revalidatePath } from "next/cache";
 
 // テーマ詳細ページ
 const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
@@ -12,18 +14,36 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params;
   const decodedName = decodeURIComponent(name);
 
-  // ログインユーザー情報を取得
+  // ログインユーザー情報を取得（存在しない場合はnull）
   const {
     data: { session },
   } = await supabase.auth.getSession();
   const user = session?.user || null;
 
   // テーマの詳細情報を取得（FV画像を含む）
-  const { data: themeData } = await supabase
+  const { data: themeData, error: themeError } = await supabase
     .from("themes")
     .select("*")
     .eq("name", decodedName)
     .single();
+
+  // テーマが見つからない場合
+  if (themeError) {
+    console.error("テーマ取得エラー:", themeError);
+    return (
+      <div className="text-center py-10">
+        <h2 className="text-2xl font-bold mb-4">
+          テーマが見つかりませんでした
+        </h2>
+        <p className="mb-4">
+          お探しのテーマは存在しないか、削除された可能性があります。
+        </p>
+        <Link href="/" className="text-blue-500 hover:underline">
+          トップページに戻る
+        </Link>
+      </div>
+    );
+  }
 
   // テーマアイテムを取得
   const { data: themeItemsData, error: themeItemsError } = await supabase
@@ -63,6 +83,12 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
         avatar_url: null,
       },
     }));
+  }
+
+  // 削除後のリフレッシュ用関数
+  async function refreshThemePage() {
+    "use server";
+    revalidatePath(`/theme/${decodedName}`);
   }
 
   return (
@@ -132,71 +158,18 @@ const ThemePage = async ({ params }: { params: Promise<{ name: string }> }) => {
             {themeItems.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {themeItems.map((item) => (
-                  <div
+                  <CollectionItem
                     key={item.id}
-                    className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 h-full flex flex-col cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Image
-                          src={
-                            item.profiles?.avatar_url || "/avator-default.webp"
-                          }
-                          alt="ユーザーアバター"
-                          className="rounded-full aspect-square"
-                          width={40}
-                          height={40}
-                        />
-                        <div>
-                          <p className="font-semibold">
-                            {item.profiles?.name || "名無しユーザー"}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {format(
-                              new Date(item.created_at),
-                              "yyyy/MM/dd HH:mm"
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                      {user && user.id === item.user_id && (
-                        <button className="text-red-500 hover:text-red-700 transition">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-trash2 h-4 w-4"
-                          >
-                            <path d="M3 6h18"></path>
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                            <line x1="10" x2="10" y1="11" y2="17"></line>
-                            <line x1="14" x2="14" y1="11" y2="17"></line>
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                    <div className="mt-4 flex-grow prose prose-sm max-w-none line-clamp-3 overflow-hidden pl-4 dark:prose-invert">
-                      <p>{item.content}</p>
-                      {item.list && (
-                        <div
-                          className="mt-2"
-                          dangerouslySetInnerHTML={{ __html: item.list }}
-                        />
-                      )}
-                    </div>
-                  </div>
+                    item={item}
+                    currentUserId={user?.id || null}
+                    onDelete={refreshThemePage}
+                    allItems={themeItems}
+                  />
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                まだ投稿がありません。最初の投稿をしてみましょう！
+              <div className="text-center py-10 text-gray-500 dark:text-gray-400">
+                まだコレクションがありません。最初の投稿をしてみましょう！
               </div>
             )}
           </div>
